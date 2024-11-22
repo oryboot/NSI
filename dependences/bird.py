@@ -1,6 +1,6 @@
 import time
 class Bird :
-    "Définition d'un Bird"
+    '''Définition d'un Bird'''
 
     def __init__(self,nom) :
         self.tour=True
