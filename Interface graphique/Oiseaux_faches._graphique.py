@@ -6,6 +6,7 @@ import sys
 
 screen=pygame.display.set_mode((512,400))#on initialise la fenêtre
 pygame.display.set_caption('Oiseaux Fâchés')#on lui donne un nom
+pygame.mixer.init()
 
 def scale_by(image,factor) :
     """
@@ -76,7 +77,8 @@ class Perso :
         """
         self.nb_frames=len(self.l_sprites[self.direction])#on récupère le nombre de frames de son animation
         rect = self.l_sprites[self.direction][int(self.current_frame)%self.nb_frames].get_rect()#on récupère le rectangle de sa frame actuelle
-        rect.topleft=(self.x,self.y)#on ajuste les coordonnées du rectangle
+        rect.topleft=(self.x,self.y+12)#on ajuste les coordonnées du rectangle
+        rect.height=20
         return rect#on retourne le rectangle
     def get_collision(self,liste) :
         """
@@ -106,7 +108,8 @@ map_key='1'#on initialise la clé qui correspond à la map
 map=pygame.image.load('tmx_and_tilesets/Level_0.png')#on initialise l'image de la map
 bird=Perso(300,100)#le joueur
 move=False#et on définit le déplacement à False au début
-
+pygame.mixer.music.load('Sounds/forest_theme.mp3')
+pygame.mixer.music.play()
 
 stop=False
 while not stop :#tant qu'on n'arrête pas le jeu
