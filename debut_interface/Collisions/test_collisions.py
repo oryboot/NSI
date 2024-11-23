@@ -84,15 +84,15 @@ while not stop :
         if event.type==QUIT :
             pygame.quit()
         keys=pygame.key.get_pressed()
-        if any([keys[K_UP],keys[K_DOWN],keys[K_LEFT],keys[K_RIGHT]]) :
+        if event.type==KEYDOWN and event.key in [K_UP,K_DOWN,K_LEFT,K_RIGHT]:
             move=True
-            if keys[K_UP] :
+            if event.key==K_UP :
                 perso.direction='haut'
-            if keys[K_DOWN] :
+            if event.key==K_DOWN :
                 perso.direction='bas'
-            if keys[K_RIGHT] :
+            if event.type==K_RIGHT :
                 perso.direction='droite'
-            if keys[K_LEFT] :
+            if event.type==K_LEFT :
                 perso.direction='gauche'
         elif event.type==KEYUP :
             if event.key==K_UP and perso.direction=='haut':
