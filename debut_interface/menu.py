@@ -1,7 +1,7 @@
 import pygame
-from pygame.locals import*
+from pygame.locals import *
 
-stop=False
-while not stop :
-    for event in pygame.event.get() :
+stop = False
+while not stop:
+    for event in pygame.event.get():
         pass

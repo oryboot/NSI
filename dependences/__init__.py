@@ -1,5 +1,5 @@
-from bird import Bird
-from picoo import Picoo
-from combat_mecanic import combat, combat_multiple
-from utils import sort_speed, verif_int
-from game_logic import jeu
+from dependences import game_logic
+from dependences import bird
+from dependences import combat_mecanic
+from dependences import picoo
+from dependences import utils
