@@ -101,6 +101,7 @@ while not stop:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
+            
         keys = pygame.key.get_pressed()
         if any([keys[K_UP], keys[K_DOWN], keys[K_LEFT], keys[K_RIGHT]]):
             move = True
@@ -158,6 +159,7 @@ while not stop:
         if lapin.y > perso.y:
             lapin.y -= 0.5
         lapin.current_frame += 0.03
+
     else:
         lapin.current_frame = 0
         lapin.direction = 'idle'
