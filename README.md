@@ -4,9 +4,9 @@
 Feuille de route - Projet Angry Birds RPG
 Nom du projet : アングリー・バード
 Date de début du projet : 14/10/2024
-Équipe : Diego : Interface/Structure Console, Code.
-Maxynn : Idées du jeu, équilibrage, mise en forme GDOC, SFX, aide Interface graphique.
-Alexi : Sprite, FX, Équilibrage, Organisation. 
+Équipe : stevemaronix : Interface/Structure Console, Code.
+mx1 : Idées du jeu, équilibrage, mise en forme GDOC, SFX, aide Interface graphique.
+ory : Sprite, FX, Équilibrage, Organisation. 
 Date de fin du projet : --/--/202-
 ```
 
