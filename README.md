@@ -34,42 +34,30 @@ GDOC : https://docs.google.com/document/d/1V8MyXwGRuNBI2A7TsviFY9SDgMUBDJwqx2hym
 
 ---
 
-## **Structure du Projet**
-
-Le projet est organisé en modules pour une meilleure maintenabilité et extensibilité :
-
-```
-projet/
-├── __init__.py          # (Optionnel) Fait de ce dossier un package Python.
-├── bird.py              # Contient la classe `Bird` (gestion des oiseaux).
-├── picoo.py             # Contient la classe `Picoo` (gestion des cochons).
-├── game_logic.py        # Contient la logique du jeu avec les fonctions `jeu`.
-├── combat_mecanic.py    # Contient la logique de combat et interactions.
-├── utils.py             # Contient des fonctions utilitaires comme `sort_speed`.
-└── main.py              # Point d'entrée principal du programme.
-```
-
----
-
 ## **Installation**
 
 ### **Prérequis**
 - Python 3.6 ou version ultérieure.
+- Modules externes
 - Un terminal ou environnement de développement (VSCode, PyCharm, etc.).
 
 ### **Étapes**
 1. Clonez ce dépôt sur votre machine locale :
    ```bash
-   git clone https://github.com/username/nsi.git
-   cd nsi
+   git clone https://github.com/oryboot/NSI.git
+   cd NSI
    ```
 
 2. Assurez-vous que Python est installé :
    ```bash
    python --version
    ```
-
-3. Exécutez le fichier `main.py` pour lancer le jeu :
+3. Installez les modules externes :
+   ```bash
+   pip install -r requirements.txt
+   ```
+   
+4. Exécutez le fichier `main.py` pour lancer le jeu :
    ```bash
    python main.py
    ```
