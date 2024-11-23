@@ -1,4 +1,3 @@
-from dependences import bird
 from .bird import Bird
 
 
