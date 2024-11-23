@@ -1,3 +1,3 @@
-from dependences.game_logic import jeu
+from dependencies.game_logic import jeu
 
 jeu()
