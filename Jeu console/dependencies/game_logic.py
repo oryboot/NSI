@@ -22,7 +22,7 @@ def jeu():
     print('Il décide de suivre ses traces et se met alors en quête du précieux oeuf.')
     print("")
     time.sleep(2)
-    stage = 10  # on initialise le numéro du stage
+    stage = 1  # on initialise le numéro du stage
     lieu = 'la forêt.'  # on précise le lieu du perso pour donner du contexte
     print(f'Vous entrez dans {lieu}')
     time.sleep(3)
