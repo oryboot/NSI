@@ -54,10 +54,10 @@ class Perso :
         """
         Initialisation du personnage
         """
-        self.l_sprites={'haut':[pygame.transform.scale(pygame.image.load('red_sprite.png').convert_alpha(),(30,30))],
-                        'bas': [pygame.transform.scale(pygame.image.load('red_sprite.png').convert_alpha(),(30,30))],
-                        'droite' : [pygame.transform.scale(pygame.image.load('red_sprite.png').convert_alpha(),(30,30))],
-                        'gauche' : [pygame.transform.scale(pygame.image.load('red_sprite.png').convert_alpha(),(30,30))]}#on crée un dictionnaire avec les différents sprites du personnage
+        self.l_sprites={'haut':[pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
+                        'bas': [pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
+                        'droite' : [pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
+                        'gauche' : [pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))]}#on crée un dictionnaire avec les différents sprites du personnage
         self.direction='bas'#on initialise sa direction ('bas' par défaut)
         self.nb_frames=len(self.l_sprites[self.direction])#on calcule le nombre de frames de son animation
         self.current_frame=0#on initialise la frame de départ à 0
@@ -99,11 +99,11 @@ def refresh(perso,map,screen,tmx_data) :
     afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
     pygame.display.flip()#on actualise l'affichage
 
-tmx_data=pytmx.load_pygame('Level_0bis.tmx')#on initialise les données tmx de la première map
+tmx_data=pytmx.load_pygame('tmx_and_tilesets/Level_0bis.tmx')#on initialise les données tmx de la première map
 collidable_tiles={}#on initialise le dictionnaire des collisions
 collidable_tiles['1']=crea_collisions(tmx_data)#et on ajoute les collisions de la map 1
 map_key='1'#on initialise la clé qui correspond à la map
-map=pygame.image.load('Level_0.png')#on initialise l'image de la map
+map=pygame.image.load('tmx_and_tilesets/Level_0.png')#on initialise l'image de la map
 bird=Perso(300,100)#le joueur
 move=False#et on définit le déplacement à False au début
 
