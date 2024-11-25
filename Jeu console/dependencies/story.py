@@ -14,8 +14,18 @@ def intro(player):
     print('Il décide de suivre ses traces et se met alors en quête du précieux oeuf.\n')
     time.sleep(2)
 
+def get_mode(stage):
+    mode = 0
+    if stage <= 3:
+        mode = 0
+    elif stage <= 8:
+        mode = 1
+    elif stage == 9:
+        mode = 2
+    return mode
+
 def get_place(stage):
-    place = places[stage - 1]
+    place = places[get_mode(stage)]
     return place
 
 def introduce_level(stage):

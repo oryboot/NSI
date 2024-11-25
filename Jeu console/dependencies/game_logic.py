@@ -5,7 +5,7 @@ from .picoo import Picoo
 from .combat_mecanic import combat, combat_multiple
 from .story import intro, get_place, introduce_level, final_battle
 
-def level_up(stage):
+def update_stage(stage):
     stage += 1
     return stage
 
@@ -43,7 +43,7 @@ def jeu():
                 perso.stamina += 10  # on augmente sa stamina
                 if perso.stamina >= perso.staminamax:  # si la stamina obtenue est supérieure à  la stamina max
                     perso.stamina = perso.staminamax  # on lui donne la valeur de la stamina max
-                level_up(stage)
+                stage = update_stage(stage)
             else:  # s'il perd
                 print('Game Over')
                 if input('Reprendre le stage ? 1:Oui 2:Non') == '1':  # on lui demande s'il souhaite reprendre
@@ -76,7 +76,7 @@ def jeu():
                 print(f'XP :{perso.XP}, Niveau :{perso.niveau}')
                 print('')
                 perso.stamina = perso.staminamax
-                level_up(stage)
+                stage = update_stage(stage)
             else:
                 print('Game Over')
                 print('')
@@ -127,7 +127,7 @@ def jeu():
                 print('Bravo! Vous avez vaincu King Picoo')  # on félicite le joueur
                 time.sleep(2)
                 print("Vous avez récupéré l'oeuf !")
-                level_up(stage)  # on arrête le jeu
+                stage = update_stage(stage)  # on arrête le jeu
             else:  # si le joueur meurt
                 print('Game Over')
                 if input('Reprendre le stage ? 1:Oui 2:Non') == '1':  # on lui demande s'il souhaite reprendre
@@ -142,7 +142,7 @@ def jeu():
                         rep = input()  # on redemande au joueur
                         if rep in ['1', '2']:  # sinon  on confirme qu'il veuille bien quitter
                             if rep == '1':
-                                level_up(stage)
+                                stage = update_stage(stage)
                                 stop = True  # on arrête le jeu
                             else:  # sinon on remet ses stats au maximum
                                 perso.PV = perso.PVmax
