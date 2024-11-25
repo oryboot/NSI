@@ -3,6 +3,11 @@ import time
 from .menu import menu
 from .picoo import Picoo
 from .combat_mecanic import combat, combat_multiple
+from .story import intro, get_place, introduce_level, final_battle
+
+def level_up(stage):
+    stage += 1
+    return stage
 
 
 def jeu():
@@ -11,21 +16,9 @@ def jeu():
     """
     perso = menu()
     picoo_list = ['Minion']  # on crée une liste de types possibles de picoo/cochon
-    print(f'{perso.nom} et ses amis s\'endormaient paisiblement autour de leur précieux oeuf...')
-    time.sleep(2.5)
-    print(f'Soudain une horde de Picoos débarque et saccage tout. Alors que {perso.nom} dort encore paisiblement, ses amis sont enlevés et l\'oeuf est subtilisé...')
-    time.sleep(3)
-    print(f'{perso.nom} se réveille seul...')
-    time.sleep(1.5)
-    print("Il se rend compte que l'oeuf et ses amis ont disparu. Mais il reconnaît les traces laissés par les vils Picoo...")
-    time.sleep(4)
-    print('Il décide de suivre ses traces et se met alors en quête du précieux oeuf.')
-    print("")
-    time.sleep(2)
-    stage = 1  # on initialise le numéro du stage
-    lieu = 'la forêt.'  # on précise le lieu du perso pour donner du contexte
-    print(f'Vous entrez dans {lieu}')
-    time.sleep(3)
+    intro(perso)
+    stage = 1 # on initialise le numéro du stage
+    introduce_level(stage)
     stop = False
     while not stop:
         while stage < 9:  # jusqu'au stage 9
@@ -35,10 +28,8 @@ def jeu():
                 picoo_list.append('Corporal')  # on ajoute corporal à  la liste de cochons possibles
             if stage == 4:  # et si on est au stage 4
                 picoo_list.append('Fat')  # on ajoute Fat à  la liste des cochons
-                lieu = 'les mines.'
-                print('Vous entrez dans les mines.')
-                time.sleep(3)
-            print(f'Stage {stage}: {perso.nom} affronte {picoo.nom} dans {lieu}')  # on annonce le stage et on précise les opposants
+                introduce_level(stage)
+            print(f'Stage {stage}: {perso.nom} affronte {picoo.nom} dans {get_place(stage)}')  # on annonce le stage et on précise les opposants
             if combat(perso, picoo):  # si le joueur remporte le combat
                 print(f'Stamina :{perso.stamina}- PV {perso.nom}: {perso.PV}/{perso.PVmax} // PV {picoo.nom}: {picoo.PV}')  # on annonce le résultat
                 print(f'{picoo.nom} est K.O.')  # on précise que le picoo est K.O.
@@ -52,7 +43,7 @@ def jeu():
                 perso.stamina += 10  # on augmente sa stamina
                 if perso.stamina >= perso.staminamax:  # si la stamina obtenue est supérieure à  la stamina max
                     perso.stamina = perso.staminamax  # on lui donne la valeur de la stamina max
-                stage += 1  # on augmente le stage
+                level_up(stage)
             else:  # s'il perd
                 print('Game Over')
                 if input('Reprendre le stage ? 1:Oui 2:Non') == '1':  # on lui demande s'il souhaite reprendre
@@ -75,9 +66,7 @@ def jeu():
                         else:
                             print('Format invalide !')
         while stage == 9:  # au stage 9 on change de mode de jeu
-            lieu = 'Château'
-            print('Vous entrez dans le château.')
-            time.sleep(3)
+            introduce_level(stage)
             enemies = [Picoo(random.choice(picoo_list)) for i in range(3)]  # liste des ennemis
             print(f'Stage {stage}: {perso.nom} affronte {enemies[0].nom}, {enemies[1].nom} et {enemies[2].nom}')
             if combat_multiple(perso, enemies):  # si le joueur est vainqueur
@@ -87,7 +76,7 @@ def jeu():
                 print(f'XP :{perso.XP}, Niveau :{perso.niveau}')
                 print('')
                 perso.stamina = perso.staminamax
-                stage += 1
+                level_up(stage)
             else:
                 print('Game Over')
                 print('')
@@ -97,13 +86,7 @@ def jeu():
             perso.PV = perso.PVmax
             perso.stamina = perso.staminamax
             perso.tour = True
-            print('')
-            print('Vous entrez finalement dans la demeure de King Picoo.')
-            time.sleep(3)
-            print('Il vous attendait...')
-            time.sleep(2)
-            print('Vous engagez le combat sans plus attendre.')
-            print('')
+            final_battle()
             Roi = Picoo('King Picoo')  # on crée le boss
             tour = 0
             ennemi_tour = True
@@ -144,7 +127,7 @@ def jeu():
                 print('Bravo! Vous avez vaincu King Picoo')  # on félicite le joueur
                 time.sleep(2)
                 print("Vous avez récupéré l'oeuf !")
-                stage += 1  # on arrête le jeu
+                level_up(stage)  # on arrête le jeu
             else:  # si le joueur meurt
                 print('Game Over')
                 if input('Reprendre le stage ? 1:Oui 2:Non') == '1':  # on lui demande s'il souhaite reprendre
@@ -159,7 +142,7 @@ def jeu():
                         rep = input()  # on redemande au joueur
                         if rep in ['1', '2']:  # sinon  on confirme qu'il veuille bien quitter
                             if rep == '1':
-                                stage += 1
+                                level_up(stage)
                                 stop = True  # on arrête le jeu
                             else:  # sinon on remet ses stats au maximum
                                 perso.PV = perso.PVmax
