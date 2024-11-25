@@ -1,4 +1,4 @@
-from .bird import Bird
+from .bird import Red, Chuck, Bomb
 
 bird_names = ['chuck', 'red', 'bomb']
 
@@ -15,8 +15,13 @@ def valid_name(name):
         return False
 
 
-def assign_player_bird(name):
-    player = Bird(name)
+def assign_bird(name):
+    if name == 'red':
+        player = Red()
+    elif name == 'chuck':
+        player = Chuck()
+    elif name == 'bomb':
+        player = Bomb()
     return player
 
 def create_player():
@@ -24,7 +29,7 @@ def create_player():
     while not valid_name(nom):
         print('Valeur invalide !')
         nom = choose_character()  # on demande au joueur de choisir un oiseau
-    return assign_player_bird(nom)
+    return assign_bird(nom)
 
 
 def menu(start_game):
