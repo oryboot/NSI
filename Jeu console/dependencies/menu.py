@@ -5,7 +5,7 @@ bird_names = ['chuck', 'red', 'bomb']
 
 def choose_character():
     character = input('Quel personnage veux-tu ? Red, Chuck, Bomb')
-    character.lower()
+    character=character.lower()
     return character
 
 
@@ -32,8 +32,7 @@ def create_player(start):
 
 def menu(play):
     while not play:
-        print(
-            "Bienvenue dans Oiseaux en Colère !\nDans ce jeu votre objectif sera d'éliminer la menace Picoo.\n\n   1-Débuter le jeu  2-Règles")
+        print("Bienvenue dans Oiseaux en Colère !\nDans ce jeu votre objectif sera d'éliminer la menace Picoo.\n\n   1-Débuter le jeu  2-Règles")
         choice = input()
         if choice == '2':
             print(

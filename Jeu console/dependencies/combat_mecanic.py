@@ -10,7 +10,7 @@ def combat(perso, ennemi):
     global ennemi_tour
     ennemi_tour = True
     perso.tour == True
-    while perso.PV > 0 and ennemi.PV > 0:  # tant que les deux ont encore des PV le combat se poursuit
+    while perso.PV > 0 and ennemi.PV > 0:  # tant que les deux ont encore des PV, le combat se poursuit
         if perso.vitesse > ennemi.vitesse:  # si le perso est plus rapide que l'ennemi
             if perso.tour == True:
                 if perso.nom == 'Bomb':
@@ -53,7 +53,7 @@ def combat_multiple(perso, enemies):
         opponents = sort_speed(
             enemies + [perso])  # liste de tous les opposants du combat (càd bird+picoos) triés par vitesse
         if perso.tour == True:
-            print('Choisis un ennemi à attaquer:')  # on demande au joeuuru de choisir un ennemi à  attaquer
+            print('Choisis un ennemi à attaquer:')  # on demande au joueur de choisir un ennemi à attaquer
             for i in range(len(enemies)):
                 print(f'{str(i + 1)}:{enemies[i].nom}- PV:{enemies[i].PV}')
             verif = False

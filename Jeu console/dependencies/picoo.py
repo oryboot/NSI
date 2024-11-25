@@ -37,12 +37,12 @@ class Picoo:
         on définit une méthode qui permet au cochon/picoo d'attaquer le bird.
         """
         time.sleep(1)
-        if self.attaque < ennemi.defense:  # si la défense de l'ennemi du cochon (cà d du bird) est supérieure
+        if self.attaque < ennemi.defense:  # si la défense de l'ennemi du cochon (càd du bird) est supérieure
             ennemi.PV -= 0  # on inflige aucun dégàt
             print(f'{self.nom} attaque {ennemi.nom}: {self.nom} ne vous fait aucun dégât.')
         else:
             ennemi.PV -= self.attaque - ennemi.defense  # sinon on inflige des dégà¢ts
-            if ennemi.PV < 0:  # si les PV du bird sont inférieurs à  0
+            if ennemi.PV < 0:  # si les PV du bird sont inférieurs à 0
                 ennemi.PV = 0  # on les passe à  0
                 print(f'{ennemi.nom} est K.O.')
             print(f'{self.nom} attaque {ennemi.nom}: {self.nom} vous fait{self.attaque - ennemi.defense} dégâts.')
@@ -66,7 +66,7 @@ def combat(perso, ennemi):
                 ennemi.attaquer(perso)  # il attaque
             else:
                 ennemi_tour = True
-        else:  # si à  l'inverse c'est l'ennemi qui est plus rapide
+        else:  # si à l'inverse, c'est l'ennemi qui est plus rapide
             if ennemi_tour == True:
                 ennemi.attaquer(perso)  # il attaque le perso
             if perso.PV > 0 and perso.tour == True:  # qui s'il a encore des PV
