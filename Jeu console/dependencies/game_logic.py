@@ -10,11 +10,10 @@ def update_stage(stage):
     return stage
 
 
-def jeu():
+def jeu(perso):
     """
     On définit la fonction principale du jeu.
     """
-    perso = menu()
     picoo_list = ['Minion']  # on crée une liste de types possibles de picoo/cochon
     intro(perso)
     stage = 1 # on initialise le numéro du stage
