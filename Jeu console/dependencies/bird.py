@@ -153,6 +153,7 @@ class Bird:
 
 class Bird:
     def __init__(self, nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
+        self.tour = True
         self.nom = nom
         self.PV = PV
         self.PVmax = PVmax
