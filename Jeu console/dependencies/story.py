@@ -3,9 +3,9 @@ import time
 places = ['la forêt', 'les mines', 'le château']
 
 def intro(player):
-    print(f'{player.nom} et ses amis s\'endormaient paisiblement autour de leur précieux oeuf...')
+    print(f"{player.nom} et ses amis s'endormaient paisiblement autour de leur précieux oeuf...")
     time.sleep(2.5)
-    print(f'Soudain une horde de Picoos débarque et saccage tout. Alors que {player.nom} dort encore paisiblement, ses amis sont enlevés et l\'oeuf est subtilisé...')
+    print(f"Soudain une horde de Picoos débarque et saccage tout. Alors que {player.nom} dort encore paisiblement, ses amis sont enlevés et l'oeuf est subtilisé...")
     time.sleep(3)
     print(f'{player.nom} se réveille seul...')
     time.sleep(1.5)
@@ -33,8 +33,8 @@ def introduce_level(stage):
     time.sleep(3)
 
 def final_battle():
-    print('\nVous entrez finalement dans la demeure de King Picoo.')
+    print('Vous entrez finalement dans la demeure de King Picoo.')
     time.sleep(3)
     print('Il vous attendait...')
     time.sleep(2)
-    print('Vous engagez le combat sans plus attendre.\n')
+    print('Vous engagez le combat sans plus attendre.')

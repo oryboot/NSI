@@ -21,12 +21,11 @@ def jeu(perso):
     stop = False
     while not stop:
         while stage < 9:  # jusqu'au stage 9
-            picoo = Picoo(
-                random.choice(picoo_list))  # on choisit un type de cochon au hasard dans la liste)#on crée un cochon
+            picoo = Picoo(random.choice(picoo_list))  # on choisit un type de cochon au hasard dans la liste et on crée un cochon
             if stage == 2:  # si on est au stage 2
                 picoo_list.append('Corporal')  # on ajoute corporal à  la liste de cochons possibles
             if stage == 4:  # et si on est au stage 4
-                picoo_list.append('Fat')  # on ajoute Fat à  la liste des cochons
+                picoo_list.append('Fat')  # on ajoute Fat à la liste des cochons
                 introduce_level(stage)
             print(f'Stage {stage}: {perso.nom} affronte {picoo.nom} dans {get_place(stage)}')  # on annonce le stage et on précise les opposants
             if combat(perso, picoo):  # si le joueur remporte le combat
