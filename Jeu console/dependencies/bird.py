@@ -176,3 +176,9 @@ class Chuck(Bird):
     def __init__(self, nom, PV, PVmax, backlash, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
         super().__init__(nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe)
         self.backlash = backlash
+
+
+class Bomb(Bird):
+    def __init__(self, nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
+        super().__init__(nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe)
+        
