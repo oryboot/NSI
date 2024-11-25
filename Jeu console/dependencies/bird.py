@@ -149,3 +149,20 @@ class Bird:
             self.stamina += 5
             self.staminamax += 5
             self.att_spe[1] += 5
+
+
+class Bird():
+    def __init__(self, nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
+        self.nom = nom
+        self.PV = PV
+        self.PVmax = PVmax
+        self.XP = XP
+        self.attaque = attaque
+        self.defense = defense
+        self.niveau = niveau
+        self.vitesse = vitesse
+        self.stamina = stamina
+        self.staminamax = staminamax
+        self.att_spe = att_spe
+
+
