@@ -4,8 +4,7 @@ bird_names = ['chuck', 'red', 'bomb']
 
 
 def choose_character():
-    character = input('Quel personnage veux-tu ? Red, Chuck, Bomb')
-    character=character.lower()
+    character = input('Quel personnage veux-tu ? Red, Chuck, Bomb').lower()
     return character
 
 
