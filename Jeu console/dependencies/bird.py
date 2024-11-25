@@ -151,7 +151,7 @@ class Bird:
             self.att_spe[1] += 5
 
 
-class Bird():
+class Bird:
     def __init__(self, nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
         self.nom = nom
         self.PV = PV
@@ -166,3 +166,7 @@ class Bird():
         self.att_spe = att_spe
 
 
+class Red(Bird):
+    def __init__(self, nom, PV, PVmax, backlash, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
+        super().__init__(nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe)
+        self.backlash = backlash
