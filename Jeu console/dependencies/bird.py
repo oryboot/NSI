@@ -149,3 +149,78 @@ class Bird:
             self.stamina += 5
             self.staminamax += 5
             self.att_spe[1] += 5
+
+
+class Bird:
+    def __init__(self, nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
+        self.tour = True
+        self.nom = nom
+        self.PV = PV
+        self.PVmax = PVmax
+        self.XP = XP
+        self.attaque = attaque
+        self.defense = defense
+        self.niveau = niveau
+        self.vitesse = vitesse
+        self.stamina = stamina
+        self.staminamax = staminamax
+        self.att_spe = att_spe
+
+
+class Red(Bird):
+    def __init__(self, PV, PVmax, backlash, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
+        super().__init__('Red', PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe)
+        self.backlash = backlash
+
+
+class Chuck(Bird):
+    def __init__(self, PV, PVmax, backlash, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
+        super().__init__('Chuck', PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe)
+        self.backlash = backlash
+
+
+class Bomb(Bird):
+    def __init__(self, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
+        super().__init__('Bomb', PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe)
+
+
+birds_data = {
+    'Red': {
+        'PV': 100,
+        'PVmax': 100,
+        'backlash': 0,
+        'XP': 0,
+        'attaque': 85,
+        'defense': 20,
+        'niveau': 0,
+        'vitesse': 75,
+        'stamina': 40,
+        'staminamax': 40,
+        'att_spe': ['Rage', 150],
+    },
+    'Chuck': {
+        'PV': 50,
+        'PVmax': 50,
+        'backlash': 0,
+        'XP': 0,
+        'attaque': 70,
+        'defense': 15,
+        'niveau': 0,
+        'vitesse': 100,
+        'stamina': 50,
+        'staminamax': 50,
+        'att_spe': ['Hyperactive', 0],
+    },
+    'Bomb': {
+        'PV': 120,
+        'PVmax': 120,
+        'XP': 0,
+        'attaque': 100,
+        'defense': 25,
+        'niveau': 0,
+        'vitesse': 40,
+        'stamina': 30,
+        'staminamax': 30,
+        'att_spe': ['Kamikaze', 50],
+    },
+}
