@@ -22,10 +22,6 @@ def introduce_level(stage):
     print(f'Vous entrez dans {get_place(stage)}.')
     time.sleep(3)
 
-def level_up(stage):
-    stage += 1
-    return stage
-
 def final_battle():
     print('\nVous entrez finalement dans la demeure de King Picoo.')
     time.sleep(3)

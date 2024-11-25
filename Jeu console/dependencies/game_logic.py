@@ -3,7 +3,11 @@ import time
 from .menu import menu
 from .picoo import Picoo
 from .combat_mecanic import combat, combat_multiple
-from .story import intro, get_place, introduce_level, level_up, final_battle
+from .story import intro, get_place, introduce_level, final_battle
+
+def level_up(stage):
+    stage += 1
+    return stage
 
 
 def jeu():
