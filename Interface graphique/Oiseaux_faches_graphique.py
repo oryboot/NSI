@@ -17,6 +17,16 @@ def scale_by(image,factor) :
     """
     return pygame.transform.scale(image,(image.get_rect().w*factor,image.get_rect().h))#on redimensionne l'image 
 
+def any_dict(dict) :
+    """
+    Fonction qui permet de vérifier s'il y a au moins une valeur True dans un dictionnaire donné en argument.
+    Elle retourne alors True si c'est le cas.
+    """
+    occurences=[]
+    for value in dict.values() :
+        occurences.append(value)
+    return any(occurences)
+
 def crea_collisions(tmx_data) :
     """
     Fonction qui permet de créer les collisions de la map. Elle prend en paramètre un fichier .tmx importé via pytmx.
@@ -60,6 +70,7 @@ class Perso :
                         'droite' : [pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
                         'gauche' : [pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))]}#on crée un dictionnaire avec les différents sprites du personnage
         self.direction='bas'#on initialise sa direction ('bas' par défaut)
+        self.directions={'bas':False,'haut':False,'gauche':False,'droite':False}
         self.nb_frames=len(self.l_sprites[self.direction])#on calcule le nombre de frames de son animation
         self.current_frame=0#on initialise la frame de départ à 0
         self.x,self.y=x,y#on initialise ses coordonnées
@@ -122,39 +133,43 @@ while not stop :#tant qu'on n'arrête pas le jeu
                 move=True#on initialise le mouvement
                 #on change la valeur de la direction du joueur (bird) en fonction de la touche cliquée
                 if event.key == K_UP :
+                    bird.directions['haut']=True
                     bird.direction='haut'
                 elif event.key == K_DOWN :
+                    bird.directions['bas']=True
                     bird.direction='bas'
                 if event.key == K_RIGHT :
+                    bird.directions['droite']=True
                     bird.direction='droite'
                 elif event.key == K_LEFT :
+                    bird.directions['gauche']=True
                     bird.direction='gauche'
         elif event.type==KEYUP :#et s'il relève la touche
             if event.key in [K_RIGHT,K_LEFT,K_UP,K_DOWN] :
                 #on arrête le mouvement
-                if event.key == K_UP and bird.direction=='haut':
-                    move=False
-                elif event.key == K_DOWN and bird.direction=='bas' :
-                    move=False
-                elif event.key == K_RIGHT and bird.direction=='droite':
-                    move=False
-                elif event.key == K_LEFT and bird.direction=='gauche' :
-                    move=False
-    if move :
+                if event.key == K_UP and bird.directions['haut']:
+                    bird.directions['haut']=False
+                elif event.key == K_DOWN and bird.directions['bas'] :
+                    bird.directions['bas']=False
+                elif event.key == K_RIGHT and bird.directions['droite']:
+                    bird.directions['droite']=False
+                elif event.key == K_LEFT and bird.directions['gauche'] :
+                    bird.directions['gauche']=False
+    if any_dict(bird.directions) :
         #si le mouvement est en cours
-        if bird.direction=='haut' :#s'il va vers le haut
+        if bird.directions['haut'] :#s'il va vers le haut
             bird.y-=2#on change ses coordonnées
             if bird.get_collision(collidable_tiles['1']) :#mais s'il entre en collision avec un objet de la map
                 bird.y+=2#on annule le mouvement
-        elif bird.direction=='bas' :#s'il va vers le bas, on fait la même chose
+        if bird.directions['bas'] :#s'il va vers le bas, on fait la même chose
             bird.y+=2
             if bird.get_collision(collidable_tiles['1']) :
                 bird.y-=2
-        elif bird.direction=='droite' :#vers la droite
+        if bird.directions['droite'] :#vers la droite
             bird.x+=2
             if bird.get_collision(collidable_tiles['1']) :
                 bird.x-=2
-        if bird.direction=='gauche' :#et vers la gauche
+        if bird.directions['gauche'] :#et vers la gauche
             bird.x-=2
             if bird.get_collision(collidable_tiles['1']) :
                 bird.x+=2

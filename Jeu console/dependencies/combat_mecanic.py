@@ -88,15 +88,15 @@ def combat_multiple(perso, enemies):
                 print(f'PV {pic.nom}:{pic.PV}')  # on affiche les PV de chaque ennemi
             print(f'PV {perso.nom}: {perso.PV}')
             print('')
-            if perso.nom == 'Chuck':
-                if perso.backlash >= 1:
+            if perso.nom == 'Chuck':#si l'oiseau est Chuck
+                if perso.backlash >= 1:#s'il subit encore le contrecoup
                     print('- 5 DEF')
-                    perso.backlash -= 1
-                    perso.defense -= 5
-            elif perso.nom == 'Red':
-                if perso.backlash > 0:
-                    perso.backlash -= 1
+                    perso.backlash -= 1#on lui diminue le contrecoup
+                    perso.defense -= 5#et on diminue sa défense de 5
+            elif perso.nom == 'Red':#s'il s'agit de Red
+                if perso.backlash > 0:#et qu'il a un contrecoup
+                    perso.backlash -= 1#on le 'réanime'
                     print('Red se sent mieux')
                 elif perso.backlash == 0:
                     perso.tour = True
-    return perso.PV > 0
+    return perso.PV > 0#on retourne le résultat du combat
