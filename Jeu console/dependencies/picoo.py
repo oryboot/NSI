@@ -74,13 +74,13 @@ def combat(perso, ennemi):
                     perso.attaquer([ennemi])  # attaque l'ennemi
                 else:
                     perso.attaquer(ennemi)
-        if perso.nom == 'Chuck':
-            if perso.backlash >= 1:
-                perso.backlash -= 1
-                perso.defense -= 5
-        if perso.nom == 'Red':
-            if perso.backlash > 0:
-                perso.backlash -= 1
+        if perso.nom == 'Chuck':#si le bird est Chuck
+            if perso.backlash >= 1:#s'il a encore un effet de contrecoup
+                perso.backlash -= 1#on lui diminue de 1 tour
+                perso.defense -= 5#et on diminue sa défense de 5
+        if perso.nom == 'Red':#s'il s'agit de Red
+            if perso.backlash > 0:#s'il est épuisé
+                perso.backlash -= 1#on le 'réanime'
                 print('Red se sent mieux.')
             elif perso.backlash == 0:
                 perso.tour = True
