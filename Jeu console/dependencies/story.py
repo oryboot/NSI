@@ -11,7 +11,7 @@ def intro(player):
     time.sleep(1.5)
     print("Il se rend compte que l'oeuf et ses amis ont disparu. Mais il reconnaît les traces laissés par les vils Picoo...")
     time.sleep(4)
-    print('Il décide de suivre ses traces et se met alors en quête du précieux oeuf.\n')
+    print('Il décide de suivre ces traces et se met alors en quête du précieux oeuf.\n')
     time.sleep(2)
 
 def get_mode(stage):

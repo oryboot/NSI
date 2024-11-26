@@ -45,7 +45,7 @@ class Picoo:
             if ennemi.PV < 0:  # si les PV du bird sont inférieurs à 0
                 ennemi.PV = 0  # on les passe à  0
                 print(f'{ennemi.nom} est K.O.')
-            print(f'{self.nom} attaque {ennemi.nom}: {self.nom} vous fait{self.attaque - ennemi.defense} dégâts.')
+            print(f'{self.nom} attaque {ennemi.nom}: {self.nom} vous fait {self.attaque - ennemi.defense} dégâts.')
 
 
 def combat(perso, ennemi):

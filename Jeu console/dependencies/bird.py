@@ -4,47 +4,19 @@ import time
 class Bird:
     '''Définition d'un Bird'''
 
-    def __init__(self, nom):
+    def __init__(self, nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
         self.tour = True
-        if nom == 'red':  # s'il choisit red
-            # on initialise les stats du perso
-            self.nom = 'Red'
-            self.PV = 100
-            self.PVmax = 100
-            self.backlash = 0
-            self.XP = 0
-            self.attaque = 85
-            self.defense = 20
-            self.niveau = 0
-            self.vitesse = 75
-            self.stamina = 40
-            self.staminamax = 40
-            self.att_spe = ['Rage', 150]
-        elif nom == 'chuck':  # de même pour chuck
-            self.nom = 'Chuck'
-            self.backlash = 0
-            self.PV = 50
-            self.PVmax = 50
-            self.XP = 0
-            self.attaque = 70
-            self.defense = 15
-            self.niveau = 0
-            self.vitesse = 100
-            self.stamina = 50
-            self.staminamax = 50
-            self.att_spe = ['Hyperactive', 0]
-        elif nom == 'bomb':  # et pour bomb
-            self.nom = 'Bomb'
-            self.PV = 120
-            self.PVmax = 120
-            self.XP = 0
-            self.attaque = 100
-            self.defense = 25
-            self.niveau = 0
-            self.vitesse = 40
-            self.stamina = 30
-            self.staminamax = 30
-            self.att_spe = ['Kamikaze', 50]
+        self.nom = nom
+        self.PV = PV
+        self.PVmax = PVmax
+        self.XP = XP
+        self.attaque = attaque
+        self.defense = defense
+        self.niveau = niveau
+        self.vitesse = vitesse
+        self.stamina = stamina
+        self.staminamax = staminamax
+        self.att_spe = att_spe
 
     def attaquer(self, ennemi, indice=0):
         '''
@@ -149,22 +121,6 @@ class Bird:
             self.stamina += 5
             self.staminamax += 5
             self.att_spe[1] += 5
-
-
-class Bird:
-    def __init__(self, nom, PV, PVmax, XP, attaque, defense, niveau, vitesse, stamina, staminamax, att_spe):
-        self.tour = True
-        self.nom = nom
-        self.PV = PV
-        self.PVmax = PVmax
-        self.XP = XP
-        self.attaque = attaque
-        self.defense = defense
-        self.niveau = niveau
-        self.vitesse = vitesse
-        self.stamina = stamina
-        self.staminamax = staminamax
-        self.att_spe = att_spe
 
 
 class Red(Bird):
