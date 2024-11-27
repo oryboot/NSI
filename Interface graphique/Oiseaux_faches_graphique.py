@@ -1,5 +1,6 @@
 #on importe les bibliothèques et modules dont on a besoin
 import pygame
+import math
 from pygame.locals import*
 import pytmx
 import sys
@@ -7,6 +8,14 @@ import sys
 screen=pygame.display.set_mode((512,400))#on initialise la fenêtre
 pygame.display.set_caption('Oiseaux Fâchés')#on lui donne un nom
 pygame.mixer.init()
+
+# Initialisation d'images obscènes
+
+testdog = pygame.image.load("Evil Dog.png").convert_alpha()
+testdog = pygame.transform.scale(testdog,(25,25))
+
+global clonelist
+clonelist = []
 
 def scale_by(image,factor) :
     """
@@ -110,7 +119,54 @@ def refresh(perso,map,screen,tmx_data) :
     screen.blit(map,(0,0))#on affiche la map
     perso.draw(screen)#on affiche le perso
     afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
+    enemy = CreateEntity("Dog",bird,250,250)
+    PiggyAI(bird)
     pygame.display.flip()#on actualise l'affichage
+
+def CreateEntity(entity,bird,x,y):
+    """
+    Crée un clone cochon sur un endroit de la carte :3
+    """
+    
+    screen.blit(testdog,(x,y))
+    
+    vx = 3
+    vy = 2
+
+    clone = {'name':entity,'x':x, 'y':y, 'dpl_x':vx, 'dpl_y':vy, 'obj_x':bird.x, 'obj_y':bird.y}
+    clonelist.append(clone)
+
+def PiggyAI(bird):
+    """
+    Déplacements du cochon sur la carte en fonction de la position du joueur
+    """
+    liste_indices_a_supprimer =[]
+
+    for i in range(len(clonelist)):
+        detectcollision = pygame.Rect(clonelist[i]['x'],clonelist[i]['y'],100,100)
+
+        rect_perso = pygame.Rect(bird.x,bird.y,32,32)
+        if rect_perso.colliderect(detectcollision) != -1:
+            clonelist[i]["x"] += clonelist[i]["dpl_x"]
+            clonelist[i]["y"] += clonelist[i]["dpl_y"]
+            
+            vx = clonelist[i]['obj_x']-clonelist[i]['x']
+            vy = clonelist[i]['obj_y']-clonelist[i]['y']
+            liste_indices_a_supprimer = [i]+liste_indices_a_supprimer
+
+            if vx < 3 and vy < 3 and i not in liste_indices_a_supprimer:
+                liste_indices_a_supprimer.append(i)
+            
+            vx = vx/math.sqrt(vx*vx+vy*vy)*5
+            vy = vy/math.sqrt(vx*vx+vy*vy)*5 
+            clonelist[i]['dpl_x']=vx
+            clonelist[i]['dpl_y']=vy
+                
+            if clonelist[i]["name"] == "Dog":
+                    screen.blit(testdog,(clonelist[i]['x'],clonelist[i]['y']))
+            
+            for i in liste_indices_a_supprimer :
+                    clonelist.pop(i)
 
 tmx_data=pytmx.load_pygame('tmx_and_tilesets/Level_0bis.tmx')#on initialise les données tmx de la première map
 collidable_tiles={}#on initialise le dictionnaire des collisions
@@ -155,22 +211,25 @@ while not stop :#tant qu'on n'arrête pas le jeu
                     bird.directions['droite']=False
                 elif event.key == K_LEFT and bird.directions['gauche'] :
                     bird.directions['gauche']=False
+    
     if any_dict(bird.directions) :
         #si le mouvement est en cours
         if bird.directions['haut'] :#s'il va vers le haut
-            bird.y-=2#on change ses coordonnées
+            bird.y-=1.5#on change ses coordonnées
             if bird.get_collision(collidable_tiles['1']) :#mais s'il entre en collision avec un objet de la map
-                bird.y+=2#on annule le mouvement
+                bird.y+=1.5#on annule le mouvement
         if bird.directions['bas'] :#s'il va vers le bas, on fait la même chose
-            bird.y+=2
+            bird.y+=1.5
             if bird.get_collision(collidable_tiles['1']) :
-                bird.y-=2
+                bird.y-=1.5
         if bird.directions['droite'] :#vers la droite
-            bird.x+=2
+            bird.x+=1.5
             if bird.get_collision(collidable_tiles['1']) :
-                bird.x-=2
+                bird.x-=1.5
         if bird.directions['gauche'] :#et vers la gauche
-            bird.x-=2
+            bird.x-=1.5
             if bird.get_collision(collidable_tiles['1']) :
-                bird.x+=2
+                bird.x+=1.5
     refresh(bird,map,screen,tmx_data)#on raffraîchit la map
+    
+
