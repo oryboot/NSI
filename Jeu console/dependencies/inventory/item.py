@@ -46,7 +46,7 @@ class Tool(Item):
         self.durability = durability
 
     def use(self):
-        if self.durability > 0 && self.reload > 0:
+        if self.durability > 0 and self.reload > 0:
             print(f"You're using {self.name} which is {self.efficiency}% efficient.")
             self.durability -= 1
         elif self.durability > 0:
