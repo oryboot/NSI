@@ -11,7 +11,7 @@ pygame.mixer.init()
 
 # Initialisation d'images obscènes
 
-testdog = pygame.image.load("Evil Dog.png").convert_alpha()
+testdog = pygame.image.load("tmx_and_tilesets/picoo.png").convert_alpha()
 testdog = pygame.transform.scale(testdog,(25,25))
 
 global clonelist
@@ -119,22 +119,24 @@ def refresh(perso,map,screen,tmx_data) :
     screen.blit(map,(0,0))#on affiche la map
     perso.draw(screen)#on affiche le perso
     afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
-    enemy = CreateEntity("Dog",bird,250,250)
+    clonelist.append(Clone("Minion",250,250,bird.x,bird.y))
     PiggyAI(bird)
     pygame.display.flip()#on actualise l'affichage
 
-def CreateEntity(entity,bird,x,y):
+class Clone :
     """
     Crée un clone cochon sur un endroit de la carte :3
     """
-    
-    screen.blit(testdog,(x,y))
-    
-    vx = 3
-    vy = 2
+    def __init__(self,name,x,y,x_dest,y_dest) :
+        self.name=name
+        self.x=x
+        self.y=y
+        self.dpl_x=3
+        self.dpl_y=2
+        self.x_dest=x_dest
+        self.y_dest=y_dest
 
-    clone = {'name':entity,'x':x, 'y':y, 'dpl_x':vx, 'dpl_y':vy, 'obj_x':bird.x, 'obj_y':bird.y}
-    clonelist.append(clone)
+
 
 def PiggyAI(bird):
     """
@@ -143,15 +145,15 @@ def PiggyAI(bird):
     liste_indices_a_supprimer =[]
 
     for i in range(len(clonelist)):
-        detectcollision = pygame.Rect(clonelist[i]['x'],clonelist[i]['y'],100,100)
+        detectcollision = pygame.Rect(clonelist[i].x,clonelist[i].y,100,100)
 
         rect_perso = pygame.Rect(bird.x,bird.y,32,32)
         if rect_perso.colliderect(detectcollision) != -1:
-            clonelist[i]["x"] += clonelist[i]["dpl_x"]
-            clonelist[i]["y"] += clonelist[i]["dpl_y"]
+            clonelist[i].x += clonelist[i].dpl_x
+            clonelist[i].y += clonelist[i].dpl_y
             
-            vx = clonelist[i]['obj_x']-clonelist[i]['x']
-            vy = clonelist[i]['obj_y']-clonelist[i]['y']
+            vx = clonelist[i].x_dest-clonelist[i].x
+            vy = clonelist[i].y_dest-clonelist[i].y
             liste_indices_a_supprimer = [i]+liste_indices_a_supprimer
 
             if vx < 3 and vy < 3 and i not in liste_indices_a_supprimer:
@@ -159,11 +161,11 @@ def PiggyAI(bird):
             
             vx = vx/math.sqrt(vx*vx+vy*vy)*5
             vy = vy/math.sqrt(vx*vx+vy*vy)*5 
-            clonelist[i]['dpl_x']=vx
-            clonelist[i]['dpl_y']=vy
+            clonelist[i].dpl_x=vx
+            clonelist[i].dpl_y=vy
                 
-            if clonelist[i]["name"] == "Dog":
-                    screen.blit(testdog,(clonelist[i]['x'],clonelist[i]['y']))
+            if clonelist[i].name == "Minion":
+                    screen.blit(testdog,(clonelist[i].x,clonelist[i].y))
             
             for i in liste_indices_a_supprimer :
                     clonelist.pop(i)
