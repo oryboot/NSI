@@ -114,7 +114,7 @@ class Perso :
 def refresh(perso,map,screen,tmx_data) :
     """
     Fonction qui raffraîchit l'affichage du jeu.
-    Elle ne retourne rien. Elle prend en paramètres le perso, la map, l'écran et les données tmx de la map.
+    Elle ne deretourne rien. Elle prend en paramètres le perso, la map, l'écran et les données tmx de la map.
     """
     screen.blit(map,(0,0))#on affiche la map
     perso.draw(screen)#on affiche le perso
