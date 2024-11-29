@@ -17,14 +17,14 @@ def combat(perso, ennemi):
                     perso.attaquer([ennemi])  # le perso attaque en premier
                 else:
                     perso.attaquer(ennemi)
-            if ennemi.PV > 0 and ennemi_tour == True:  # et si l'ennemi a encore des PV
+            if ennemi.PV > 0 and ennemi_tour:  # et si l'ennemi a encore des PV
                 ennemi.attaquer(perso)  # il attaque
             else:
                 ennemi_tour = True
         else:  # si à  l'inverse c'est l'ennemi qui est plus rapide
             if ennemi_tour == True:
                 ennemi.attaquer(perso)  # il attaque le perso
-            if perso.PV > 0 and perso.tour == True:  # qui s'il a encore des PV
+            if perso.PV > 0 and perso.tour:  # qui s'il a encore des PV
                 if perso.nom == 'Bomb':
                     perso.attaquer([ennemi])  # attaque l'ennemi
                 else:
@@ -66,7 +66,7 @@ def combat_multiple(perso, enemies):
                     print('Entrée invalide')
             ennemi = enemies[i_ennemi - 1]  # ennemi que le joueur a choisi d'attaquer
         for opp in opponents:  # pour chaque opposants (bird compris)
-            if type(opp) == Bird and opp.PV > 0 and opp.tour == True:  # si l'opposant est le bird
+            if type(opp) == Bird and opp.PV > 0 and opp.tour:  # si l'opposant est le bird
                 print(f'{perso.nom} attaque {ennemi.nom}:')  # on le fait attaquer l'ennemi qu'il a choisi
                 if perso.nom == 'Bomb':
                     opp.attaquer(enemies, i_ennemi)
@@ -78,7 +78,7 @@ def combat_multiple(perso, enemies):
                     print('')
                     enemies.pop(i_ennemi - 1)  # si le joueur bat l'ennemi, on le retire de la liste des ennemis
 
-            elif type(opp) == Picoo and opp.PV > 0 and ennemi_tour == True:  # si l'opposant est un Picoo
+            elif type(opp) == Picoo and opp.PV > 0 and ennemi_tour:  # si l'opposant est un Picoo
                 opp.attaquer(perso)  # il attaque le joueur
             elif ennemi_tour == False:
                 ennemi_tour = True
