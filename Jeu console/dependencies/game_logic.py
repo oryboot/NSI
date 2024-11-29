@@ -19,9 +19,14 @@ def Sphinx() :
     time.sleep(3)
     print('Le terrible Sphicoo !')
     time.sleep(3)
+    print("Il va vous poser une énigme. Répondez juste et le chemin s'ouvre à vous, répondez faux et ...")
+    time.sleep(4)
     print('Voilà son énigme :')
     time.sleep(1)
-    print(random.choice(dic_enigmes))
+    question=random.choice([q for q in dic_enigmes.values()])
+    print(question)
+    return input().lower()==dic_enigmes[question].lower()
+    
 
 def jeu(perso):
     """
@@ -89,8 +94,6 @@ def jeu(perso):
                 perso.stamina = perso.staminamax
                 if Sphinx() :
                     stage = update_stage(stage)
-                else :
-                    pass
             else:
                 print('Game Over')
                 print('')
