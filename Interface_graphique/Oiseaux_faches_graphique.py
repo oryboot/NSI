@@ -11,10 +11,6 @@ pygame.mixer.init()
 
 # Initialisation d'images obscènes
 
-
-global clonelist
-clonelist = []
-
 def scale_by(image,factor) :
     """
     Fonction qui permet de changer les dimensions d'une image de manière proportionnelle étant donné que
@@ -72,10 +68,10 @@ class Perso :
         """
         Initialisation du personnage
         """
-        self.l_sprites={'haut':[pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
-                        'bas': [pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
-                        'droite' : [pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
-                        'gauche' : [pygame.transform.scale(pygame.image.load('tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))]}#on crée un dictionnaire avec les différents sprites du personnage
+        self.l_sprites={'haut':[pygame.transform.scale(pygame.image.load('Interface_graphique/tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
+                        'bas': [pygame.transform.scale(pygame.image.load('Interface_graphique/tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
+                        'droite' : [pygame.transform.scale(pygame.image.load('Interface_graphique/tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))],
+                        'gauche' : [pygame.transform.scale(pygame.image.load('Interface_graphique/tmx_and_tilesets/red_sprite.png').convert_alpha(),(30,30))]}#on crée un dictionnaire avec les différents sprites du personnage
         self.direction='bas'#on initialise sa direction ('bas' par défaut)
         self.directions={'bas':False,'haut':False,'gauche':False,'droite':False}
         self.nb_frames=len(self.l_sprites[self.direction])#on calcule le nombre de frames de son animation
@@ -109,7 +105,7 @@ class Perso :
                 return True#on retourne True
         return False#False sinon
             
-def refresh(perso,map,screen,tmx_data) :
+def refresh(perso,map,screen,tmx_data,clonelist) :
     """
     Fonction qui raffraîchit l'affichage du jeu.
     Elle ne deretourne rien. Elle prend en paramètres le perso, la map, l'écran et les données tmx de la map.
@@ -118,7 +114,7 @@ def refresh(perso,map,screen,tmx_data) :
     perso.draw(screen)#on affiche le perso
     afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
     clonelist.append(Clone("minion",250,250,bird.x,bird.y))
-    PiggyAI(bird)
+    PiggyAI(bird,clonelist)
     pygame.display.flip()#on actualise l'affichage
 
 class Clone :
@@ -133,11 +129,11 @@ class Clone :
         self.dpl_y=2
         self.x_dest=x_dest
         self.y_dest=y_dest
-        self.sprite = pygame.transform.scale(pygame.image.load("tmx_and_tilesets/"+self.name+".png").convert_alpha(),(25,25))
+        self.sprite = pygame.transform.scale(pygame.image.load("Interface_graphique/tmx_and_tilesets/"+self.name+".png").convert_alpha(),(25,25))
 
 
 
-def PiggyAI(bird):
+def PiggyAI(bird,clonelist):
     """
     Déplacements du cochon sur la carte en fonction de la position du joueur
     """
@@ -169,15 +165,16 @@ def PiggyAI(bird):
             for i in liste_indices_a_supprimer :
                     clonelist.pop(i)
 
-tmx_data=pytmx.load_pygame('tmx_and_tilesets/Level_0bis.tmx')#on initialise les données tmx de la première map
+tmx_data=pytmx.load_pygame('Interface_graphique/tmx_and_tilesets/Level_0bis.tmx')#on initialise les données tmx de la première map
 collidable_tiles={}#on initialise le dictionnaire des collisions
 collidable_tiles['1']=crea_collisions(tmx_data)#et on ajoute les collisions de la map 1
 map_key='1'#on initialise la clé qui correspond à la map
-map=pygame.image.load('tmx_and_tilesets/Level_0.png')#on initialise l'image de la map
+map=pygame.image.load('Interface_graphique/tmx_and_tilesets/Level_0.png')#on initialise l'image de la map
 bird=Perso(300,100)#le joueur
 move=False#et on définit le déplacement à False au début
-pygame.mixer.music.load('Sounds/forest_theme.mp3')
+pygame.mixer.music.load('Interface_graphique/Sounds/forest_theme.mp3')
 pygame.mixer.music.play()
+clonelist=[]
 
 stop=False
 while not stop :#tant qu'on n'arrête pas le jeu
@@ -216,21 +213,21 @@ while not stop :#tant qu'on n'arrête pas le jeu
     if any_dict(bird.directions) :
         #si le mouvement est en cours
         if bird.directions['haut'] :#s'il va vers le haut
-            bird.y-=1.5#on change ses coordonnées
+            bird.y-=2#on change ses coordonnées
             if bird.get_collision(collidable_tiles['1']) :#mais s'il entre en collision avec un objet de la map
-                bird.y+=1.5#on annule le mouvement
+                bird.y+=2#on annule le mouvement
         if bird.directions['bas'] :#s'il va vers le bas, on fait la même chose
-            bird.y+=1.5
+            bird.y+=2
             if bird.get_collision(collidable_tiles['1']) :
-                bird.y-=1.5
+                bird.y-=2
         if bird.directions['droite'] :#vers la droite
-            bird.x+=1.5
+            bird.x+=2
             if bird.get_collision(collidable_tiles['1']) :
-                bird.x-=1.5
+                bird.x-=2
         if bird.directions['gauche'] :#et vers la gauche
-            bird.x-=1.5
+            bird.x-=2
             if bird.get_collision(collidable_tiles['1']) :
-                bird.x+=1.5
-    refresh(bird,map,screen,tmx_data)#on raffraîchit la map
+                bird.x+=2
+    refresh(bird,map,screen,tmx_data,clonelist)#on raffraîchit la map
     
 
