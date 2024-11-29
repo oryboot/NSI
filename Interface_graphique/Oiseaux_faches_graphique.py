@@ -114,57 +114,50 @@ def refresh(perso,map,screen,tmx_data,clonelist) :
     screen.blit(map,(0,0))#on affiche la map
     perso.draw(screen)#on affiche le perso
     afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
-    clonelist.append(Clone("minion",250,250,bird.x,bird.y))
-    PiggyAI(bird,clonelist)
+    for clone in clonelist :
+        clone.AI(bird)
+        clone.draw(screen)
     pygame.display.flip()#on actualise l'affichage
 
 class Clone :
     """
     Crée un clone cochon sur un endroit de la carte :3
     """
-    def __init__(self,name,x,y,x_dest,y_dest) :
+    def __init__(self,name,x,y) :
         self.name=name
         self.x=x
         self.y=y
         self.dpl_x=3
         self.dpl_y=2
-        self.x_dest=x_dest
-        self.y_dest=y_dest
         self.sprite = pygame.transform.scale(pygame.image.load("Interface_graphique/tmx_and_tilesets/"+self.name+".png").convert_alpha(),(25,25))
+    def get_rect(self) :
+        return self.sprite.get_rect()
+    def draw(self,screen) :
+        screen.blit(self.sprite,(self.x,self.y))
+    def get_collision(self,liste) :
+        pass
+    def contourner_obstacle(self) :
+        pass
+    def AI(self,bird):
+        """
+        Déplacements du cochon sur la carte en fonction de la position du joueur
+        """
+        rect_clone = self.get_rect()
+        rect_perso = bird.get_rect()
 
-
-
-def PiggyAI(bird,clonelist):
-    """
-    Déplacements du cochon sur la carte en fonction de la position du joueur
-    """
-    liste_indices_a_supprimer =[]
-
-    for i in range(len(clonelist)):
-        detectcollision = pygame.Rect(clonelist[i].x,clonelist[i].y,100,100)
-
-        rect_perso = pygame.Rect(bird.x,bird.y,32,32)
-        if rect_perso.colliderect(detectcollision) != -1:
-            clonelist[i].x += clonelist[i].dpl_x
-            clonelist[i].y += clonelist[i].dpl_y
+        if rect_perso.colliderect(rect_clone) != -1:
+            self.x += self.dpl_x
+            self.y += self.dpl_y
             
-            vx = clonelist[i].x_dest-clonelist[i].x
-            vy = clonelist[i].y_dest-clonelist[i].y
-            liste_indices_a_supprimer = [i]+liste_indices_a_supprimer
+            vx = bird.x-self.x
+            vy = bird.y-self.y
+            
+            vx = vx/math.sqrt(vx*vx+vy*vy)
+            vy = vy/math.sqrt(vx*vx+vy*vy) 
+            self.dpl_x=vx
+            self.dpl_y=vy
 
-            if vx < 3 and vy < 3 and i not in liste_indices_a_supprimer:
-                liste_indices_a_supprimer.append(i)
-            
-            vx = vx/math.sqrt(vx*vx+vy*vy)*5
-            vy = vy/math.sqrt(vx*vx+vy*vy)*5 
-            clonelist[i].dpl_x=vx
-            clonelist[i].dpl_y=vy
-                
-            if clonelist[i].name == "minion":
-                    screen.blit(clonelist[i].sprite,(clonelist[i].x,clonelist[i].y))
-            
-            for i in liste_indices_a_supprimer :
-                    clonelist.pop(i)
+
 
 tmx_data=pytmx.load_pygame('Interface_graphique/tmx_and_tilesets/Level_0bis.tmx')#on initialise les données tmx de la première map
 collidable_tiles={}#on initialise le dictionnaire des collisions
@@ -215,20 +208,23 @@ while not stop :#tant qu'on n'arrête pas le jeu
         #si le mouvement est en cours
         if bird.directions['haut'] :#s'il va vers le haut
             bird.y-=2#on change ses coordonnées
-            if bird.get_collision(collidable_tiles['1']) :#mais s'il entre en collision avec un objet de la map
+            if bird.get_collision(collidable_tiles[map_key]) :#mais s'il entre en collision avec un objet de la map
                 bird.y+=2#on annule le mouvement
         if bird.directions['bas'] :#s'il va vers le bas, on fait la même chose
             bird.y+=2
-            if bird.get_collision(collidable_tiles['1']) :
+            if bird.get_collision(collidable_tiles[map_key]) :
                 bird.y-=2
         if bird.directions['droite'] :#vers la droite
             bird.x+=2
-            if bird.get_collision(collidable_tiles['1']) :
+            if bird.get_collision(collidable_tiles[map_key]) :
                 bird.x-=2
         if bird.directions['gauche'] :#et vers la gauche
             bird.x-=2
-            if bird.get_collision(collidable_tiles['1']) :
+            if bird.get_collision(collidable_tiles[map_key]) :
                 bird.x+=2
+        
+    if map_key=='1' and clonelist == [] :
+        clonelist.append(Clone('minion',300,300))
     refresh(bird,map,screen,tmx_data,clonelist)#on raffraîchit la map
     
 
