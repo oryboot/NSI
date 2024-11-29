@@ -9,6 +9,19 @@ def update_stage(stage):
     stage += 1
     return stage
 
+def Sphinx() :
+    dic_enigmes = {"Qu'est-ce qui est lourd et ne bouge que la nuit\n et dont le cri ne signifie que l'ennui ?" : "Terrence",
+                   "Qu'est-ce qui est orange et gentil lorsqu'il est bien nourri mais grand et méchant lorsqu'il est mécontent" : "Bubble",
+                   "Qu'est-ce qui est jaune et qui court vite ?" : "Chuck"}
+    print('Votre ennemi juré est enfin à votre portée...')
+    time.sleep(2)
+    print('Mais avant, vous devez faire face à un dernier obstacle...')
+    time.sleep(3)
+    print('Le terrible Sphicoo !')
+    time.sleep(3)
+    print('Voilà son énigme :')
+    time.sleep(1)
+    print(random.choice(dic_enigmes))
 
 def jeu(perso):
     """
@@ -74,7 +87,10 @@ def jeu(perso):
                 print(f'XP :{perso.XP}, Niveau :{perso.niveau}')
                 print('')
                 perso.stamina = perso.staminamax
-                stage = update_stage(stage)
+                if Sphinx() :
+                    stage = update_stage(stage)
+                else :
+                    pass
             else:
                 print('Game Over')
                 print('')
@@ -101,18 +117,15 @@ def jeu(perso):
                             if 2 * Roi.PVmax // 3 < Roi.PV < Roi.PVmax:  # si le roi est dans son troisième tiers de PV
                                 print('King Picoo envoie 3 Minions')
                                 time.sleep(2)
-                                combat_multiple(perso, [Picoo('Minion') for i in
-                                                        range(3)])  # il envoie trois Minions au combat
+                                combat_multiple(perso, [Picoo('Minion') for i in range(3)])  # il envoie trois Minions au combat
                             if Roi.PVmax // 3 < Roi.PV < 2 * Roi.PVmax // 3:  # s'il est dans son deuxième tiers
                                 print('King Picoo invoque 3 Corporal')
                                 time.sleep(3)
-                                combat_multiple(perso,
-                                                [Picoo('Corporal') for i in range(3)])  # il envoie trois corporal
+                                combat_multiple(perso,[Picoo('Corporal') for i in range(3)])  # il envoie trois corporal
                             else:  # s'il est dans son premier tiers
                                 print('King Picoo est très en colère. \nIl invoque trois Picoos.')
                                 time.sleep(3)
-                                combat_multiple(perso, [Picoo(random.choice(['Fat', 'Corporal'])) for i in range(
-                                    3)])  # il envoie de manière aléatoire trois picoos parmi Corporal et Fat
+                                combat_multiple(perso, [Picoo(random.choice(['Fat', 'Corporal'])) for i in range(3)])  # il envoie de manière aléatoire trois picoos parmi Corporal et Fat
                         else:  # le reste du temps
                             Roi.attaquer(perso)  # le roi attaque le joueur
                 else:  # si le roi est plus rapide que le joueur

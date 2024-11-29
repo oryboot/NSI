@@ -92,7 +92,8 @@ class Perso :
         self.nb_frames=len(self.l_sprites[self.direction])#on récupère le nombre de frames de son animation
         rect = self.l_sprites[self.direction][int(self.current_frame)%self.nb_frames].get_rect()#on récupère le rectangle de sa frame actuelle
         rect.topleft=(self.x,self.y+12)#on ajuste les coordonnées du rectangle
-        rect.height=20
+        rect.height=10
+        rect.width=20
         return rect#on retourne le rectangle
     def get_collision(self,liste) :
         """
