@@ -11,8 +11,6 @@ pygame.mixer.init()
 
 # Initialisation d'images obscènes
 
-testdog = pygame.image.load("tmx_and_tilesets/picoo.png").convert_alpha()
-testdog = pygame.transform.scale(testdog,(25,25))
 
 global clonelist
 clonelist = []
@@ -119,7 +117,7 @@ def refresh(perso,map,screen,tmx_data) :
     screen.blit(map,(0,0))#on affiche la map
     perso.draw(screen)#on affiche le perso
     afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
-    clonelist.append(Clone("Minion",250,250,bird.x,bird.y))
+    clonelist.append(Clone("minion",250,250,bird.x,bird.y))
     PiggyAI(bird)
     pygame.display.flip()#on actualise l'affichage
 
@@ -135,6 +133,7 @@ class Clone :
         self.dpl_y=2
         self.x_dest=x_dest
         self.y_dest=y_dest
+        self.sprite = pygame.transform.scale(pygame.image.load("tmx_and_tilesets/"+self.name+".png").convert_alpha(),(25,25))
 
 
 
@@ -164,8 +163,8 @@ def PiggyAI(bird):
             clonelist[i].dpl_x=vx
             clonelist[i].dpl_y=vy
                 
-            if clonelist[i].name == "Minion":
-                    screen.blit(testdog,(clonelist[i].x,clonelist[i].y))
+            if clonelist[i].name == "minion":
+                    screen.blit(clonelist[i].sprite,(clonelist[i].x,clonelist[i].y))
             
             for i in liste_indices_a_supprimer :
                     clonelist.pop(i)
