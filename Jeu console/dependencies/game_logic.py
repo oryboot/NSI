@@ -23,7 +23,7 @@ def Sphinx() :
     time.sleep(4)
     print('Voilà son énigme :')
     time.sleep(1)
-    question=random.choice([q for q in dic_enigmes.values()])
+    question=random.choice([q for q in dic_enigmes.keys()])
     print(question)
     return input().lower()==dic_enigmes[question].lower()
     
