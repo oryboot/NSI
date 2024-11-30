@@ -1,5 +1,6 @@
 #on importe les bibliothèques et modules dont on a besoin
 import pygame
+import time
 import math
 from pygame.locals import*
 import pytmx
@@ -8,8 +9,6 @@ import sys
 screen=pygame.display.set_mode((512,400))#on initialise la fenêtre
 pygame.display.set_caption('Oiseaux Fâchés')#on lui donne un nom
 pygame.mixer.init()
-
-# Initialisation d'images obscènes
 
 def scale_by(image,factor) :
     """
@@ -92,7 +91,7 @@ class Perso :
         self.nb_frames=len(self.l_sprites[self.direction])#on récupère le nombre de frames de son animation
         rect = self.l_sprites[self.direction][int(self.current_frame)%self.nb_frames].get_rect()#on récupère le rectangle de sa frame actuelle
         rect.topleft=(self.x,self.y+12)#on ajuste les coordonnées du rectangle
-        rect.height=10
+        rect.height=20
         rect.width=20
         return rect#on retourne le rectangle
     def get_collision(self,liste) :
@@ -113,13 +112,12 @@ def refresh(perso,map,screen,tmx_data,clonelist) :
     """
     screen.blit(map,(0,0))#on affiche la map
     perso.draw(screen)#on affiche le perso
-    afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
     for clone in clonelist :
-        clone.AI(bird)
         clone.draw(screen)
+    afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
     pygame.display.flip()#on actualise l'affichage
 
-class Clone :
+class Picoo :
     """
     Crée un clone cochon sur un endroit de la carte :3
     """
@@ -131,14 +129,35 @@ class Clone :
         self.dpl_y=2
         self.sprite = pygame.transform.scale(pygame.image.load("Interface_graphique/tmx_and_tilesets/"+self.name+".png").convert_alpha(),(25,25))
     def get_rect(self) :
-        return self.sprite.get_rect()
+        rect=self.sprite.get_rect()
+        rect.x=self.x
+        rect.y=self.y
+        return rect
     def draw(self,screen) :
         screen.blit(self.sprite,(self.x,self.y))
     def get_collision(self,liste) :
+        """
+        Méthode permettant de retourner True si le cone entre en collision avec un des rectangles de la liste de collisions.
+        Elle prend en paramètre la liste en question.
+        """
+        rect_clone=self.get_rect()#on définit le rectangle du joueur
+        for rect in liste :#pour chaque rectangle de la liste
+            if rect_clone.colliderect(rect) :#si le joueur est en collision avec un rectangle de la liste
+                return True,rect#on retourne True
+        return False,rect#False sinon
+    
+    def contourner_obstacle(self,rect) :
+        """if self.x < self.x+rect.w+self.get_rect().w :
+            self.x+=3
+        elif self.x > self.x+rect.w+self.get_rect().w :
+            self.x-=3
+        if self.y < self.y+rect.h+self.get_rect().h :
+            self.y+=3
+        elif self.y > self.y+rect.h+self.get_rect().h :
+            self.y-=3"""
         pass
-    def contourner_obstacle(self) :
-        pass
-    def AI(self,bird):
+
+    def follow(self,bird,liste_collisions):
         """
         Déplacements du cochon sur la carte en fonction de la position du joueur
         """
@@ -148,10 +167,13 @@ class Clone :
         if rect_perso.colliderect(rect_clone) != -1:
             self.x += self.dpl_x
             self.y += self.dpl_y
-            
+            collision=self.get_collision(liste_collisions)
+            if collision[0] :
+                self.x -= self.dpl_x
+                self.y -= self.dpl_y
+                #self.contourner_obstacle(collision[1])
             vx = bird.x-self.x
             vy = bird.y-self.y
-            
             vx = vx/math.sqrt(vx*vx+vy*vy)
             vy = vy/math.sqrt(vx*vx+vy*vy) 
             self.dpl_x=vx
@@ -224,7 +246,9 @@ while not stop :#tant qu'on n'arrête pas le jeu
                 bird.x+=2
         
     if map_key=='1' and clonelist == [] :
-        clonelist.append(Clone('minion',300,300))
+        clonelist.append(Picoo('minion',350,300))
+    for clone in  clonelist :
+        clone.follow(bird,collidable_tiles[map_key])
     refresh(bird,map,screen,tmx_data,clonelist)#on raffraîchit la map
     
 
