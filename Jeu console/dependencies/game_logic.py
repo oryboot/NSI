@@ -34,7 +34,7 @@ def jeu(perso):
     """
     picoo_list = ['Minion']  # on crée une liste de types possibles de picoo/cochon
     intro(perso)
-    stage = 1 # on initialise le numéro du stage
+    stage = 9 # on initialise le numéro du stage
     introduce_level(stage)
     stop = False
     while not stop:
