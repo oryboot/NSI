@@ -147,17 +147,17 @@ class Picoo :
         return False,rect#False sinon
     
     def contourner_obstacle(self,rect) :
-        """if self.x < self.x+rect.w+self.get_rect().w :
+        if self.x < self.x+rect.w+self.get_rect().w :
             self.x+=3
         elif self.x > self.x+rect.w+self.get_rect().w :
             self.x-=3
         if self.y < self.y+rect.h+self.get_rect().h :
             self.y+=3
         elif self.y > self.y+rect.h+self.get_rect().h :
-            self.y-=3"""
+            self.y-=3
         pass
 
-    def follow(self,bird,liste_collisions):
+    def follow(self,bird,liste_collisions,contourner):
         """
         Déplacements du cochon sur la carte en fonction de la position du joueur
         """
@@ -165,13 +165,17 @@ class Picoo :
         rect_perso = bird.get_rect()
 
         if rect_perso.colliderect(rect_clone) != -1:
-            self.x += self.dpl_x
-            self.y += self.dpl_y
+            if not contourner :
+                self.x += self.dpl_x
+                self.y += self.dpl_y
             collision=self.get_collision(liste_collisions)
             if collision[0] :
+                contourner=True
                 self.x -= self.dpl_x
                 self.y -= self.dpl_y
-                #self.contourner_obstacle(collision[1])
+                self.contourner_obstacle(collision[1])
+            else :
+                contouner=False
             vx = bird.x-self.x
             vy = bird.y-self.y
             vx = vx/math.sqrt(vx*vx+vy*vy)
@@ -191,6 +195,7 @@ move=False#et on définit le déplacement à False au début
 pygame.mixer.music.load('Interface_graphique/Sounds/forest_theme.mp3')
 pygame.mixer.music.play()
 clonelist=[]
+contourner=False
 
 stop=False
 while not stop :#tant qu'on n'arrête pas le jeu
@@ -248,7 +253,7 @@ while not stop :#tant qu'on n'arrête pas le jeu
     if map_key=='1' and clonelist == [] :
         clonelist.append(Picoo('minion',350,300))
     for clone in  clonelist :
-        clone.follow(bird,collidable_tiles[map_key])
+        clone.follow(bird,collidable_tiles[map_key],contourner)
     refresh(bird,map,screen,tmx_data,clonelist)#on raffraîchit la map
     
 
