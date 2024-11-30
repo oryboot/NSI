@@ -50,8 +50,7 @@ def combat_multiple(perso, enemies):
     ennemi_tour = True
     perso.tour = True
     while any([p.PV > 0 for p in enemies]) and perso.PV > 0:  # tant l'un au moins des picoos est encore en vie
-        opponents = sort_speed(
-            enemies + [perso])  # liste de tous les opposants du combat (càd bird+picoos) triés par vitesse
+        opponents = sort_speed(enemies + [perso])  # liste de tous les opposants du combat (càd bird+picoos) triés par vitesse
         if perso.tour == True:
             print('Choisis un ennemi à attaquer:')  # on demande au joueur de choisir un ennemi à attaquer
             for i in range(len(enemies)):
