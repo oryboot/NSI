@@ -77,6 +77,7 @@ class Perso :
         self.nb_frames=len(self.l_sprites[self.direction])#on calcule le nombre de frames de son animation
         self.current_frame=0#on initialise la frame de départ à 0
         self.x,self.y=x,y#on initialise ses coordonnées
+    
     def draw(self,screen) :
         """
         Méthode qui affiche le personnage sur l'écran.
@@ -84,6 +85,7 @@ class Perso :
         """
         self.nb_frames=len(self.l_sprites[self.direction])#on récupère le nombre de frames de l'animation
         screen.blit(self.l_sprites[self.direction][int(self.current_frame)%self.nb_frames],(self.x,self.y))#et on affiche le personnage sur la map
+    
     def get_rect(self) :
         """
         Méthode qui permet de récupérer le rectangle du perso.
@@ -94,6 +96,7 @@ class Perso :
         rect.topleft=(self.x,self.y+12)#on ajuste les coordonnées du rectangle
         rect.height=20
         return rect#on retourne le rectangle
+    
     def get_collision(self,liste) :
         """
         Méthode permettant de retourner True si le joueur entre en collision avec un des rectangles de la liste de collisions.
@@ -108,12 +111,11 @@ class Perso :
 def refresh(perso,map,screen,tmx_data,clonelist) :
     """
     Fonction qui raffraîchit l'affichage du jeu.
-    Elle ne deretourne rien. Elle prend en paramètres le perso, la map, l'écran et les données tmx de la map.
+    Elle ne retourne rien. Elle prend en paramètres le perso, la map, l'écran et les données tmx de la map.
     """
     screen.blit(map,(0,0))#on affiche la map
     perso.draw(screen)#on affiche le perso
     afficher_tiles('Front_decos',tmx_data,screen)#et on affiche les tuiles qui doivent être sur le perso
-    clonelist.append(Clone("minion",250,250,bird.x,bird.y))
     PiggyAI(bird,clonelist)
     pygame.display.flip()#on actualise l'affichage
 
@@ -121,12 +123,12 @@ class Clone :
     """
     Crée un clone cochon sur un endroit de la carte :3
     """
-    def __init__(self,name,x,y,x_dest,y_dest) :
+    def __init__(self,name,x,y,spd_x,spd_y,x_dest,y_dest) :
         self.name=name
         self.x=x
         self.y=y
-        self.dpl_x=3
-        self.dpl_y=2
+        self.spd_x=spd_x
+        self.spd_y=spd_y
         self.x_dest=x_dest
         self.y_dest=y_dest
         self.sprite = pygame.transform.scale(pygame.image.load("Interface_graphique/tmx_and_tilesets/"+self.name+".png").convert_alpha(),(25,25))
@@ -137,33 +139,44 @@ def PiggyAI(bird,clonelist):
     """
     Déplacements du cochon sur la carte en fonction de la position du joueur
     """
-    liste_indices_a_supprimer =[]
+    liste_indices_a_supprimer = []
+    
+    if len(clonelist)==0:
+        clonelist.append(Clone("minion",200,200,1.5,1.5,bird.x,bird.y))
+    print(clonelist)
+    
 
     for i in range(len(clonelist)):
-        detectcollision = pygame.Rect(clonelist[i].x,clonelist[i].y,100,100)
+        screen.blit(clonelist[i].sprite,(clonelist[i].x,clonelist[i].y))
+        detectcollision = pygame.Rect(clonelist[i].x,clonelist[i].y,150,150)
 
         rect_perso = pygame.Rect(bird.x,bird.y,32,32)
-        if rect_perso.colliderect(detectcollision) != -1:
-            clonelist[i].x += clonelist[i].dpl_x
-            clonelist[i].y += clonelist[i].dpl_y
-            
-            vx = clonelist[i].x_dest-clonelist[i].x
-            vy = clonelist[i].y_dest-clonelist[i].y
-            liste_indices_a_supprimer = [i]+liste_indices_a_supprimer
+        
+        if rect_perso.colliderect(detectcollision)==1:
+            print("spotted")
 
-            if vx < 3 and vy < 3 and i not in liste_indices_a_supprimer:
-                liste_indices_a_supprimer.append(i)
+            vx = bird.x-clonelist[i].x # calcul de la distance x entre le clone et le perso
+            vy = bird.y-clonelist[i].y # calcul de la distance y entre le clone et le perso
+            print(vx,vy)
+
+            clonelist[i].x += (vx*clonelist[i].spd_x) /math.sqrt(vx*vx+vy*vy) 
+            clonelist[i].y += (vy*clonelist[i].spd_y) /math.sqrt(vx*vx+vy*vy) #mouvement du clone normalisé
+            print(i, clonelist[i].x, clonelist[i].y)
             
-            vx = vx/math.sqrt(vx*vx+vy*vy)*5
-            vy = vy/math.sqrt(vx*vx+vy*vy)*5 
-            clonelist[i].dpl_x=vx
-            clonelist[i].dpl_y=vy
+            #vx = clonelist[i].x_dest-clonelist[i].x
+            #vy = clonelist[i].y_dest-clonelist[i].y
+            # liste_indices_a_supprimer = [i]+liste_indices_a_supprimer
+
+            hitcollision = pygame.Rect(clonelist[i].x,clonelist[i].y,25,25)
+            if rect_perso.colliderect(hitcollision)==1 and i not in liste_indices_a_supprimer:
+                liste_indices_a_supprimer.append(i)
+                print("deleting clone")
                 
             if clonelist[i].name == "minion":
                     screen.blit(clonelist[i].sprite,(clonelist[i].x,clonelist[i].y))
             
-            for i in liste_indices_a_supprimer :
-                    clonelist.pop(i)
+        for i in liste_indices_a_supprimer :
+                clonelist.pop(i)
 
 tmx_data=pytmx.load_pygame('Interface_graphique/tmx_and_tilesets/Level_0bis.tmx')#on initialise les données tmx de la première map
 collidable_tiles={}#on initialise le dictionnaire des collisions
