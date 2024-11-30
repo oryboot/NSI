@@ -65,7 +65,7 @@ def combat_multiple(perso, enemies):
                     print('Entrée invalide')
             ennemi = enemies[i_ennemi - 1]  # ennemi que le joueur a choisi d'attaquer
         for opp in opponents:  # pour chaque opposants (bird compris)
-            if type(opp) == Bird and opp.PV > 0 and opp.tour:  # si l'opposant est le bird
+            if isinstance(opp,Bird) and opp.PV > 0 and opp.tour:  # si l'opposant est le bird
                 print(f'{perso.nom} attaque {ennemi.nom}:')  # on le fait attaquer l'ennemi qu'il a choisi
                 if perso.nom == 'Bomb':
                     opp.attaquer(enemies, i_ennemi)
