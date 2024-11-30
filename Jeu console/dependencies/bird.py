@@ -28,22 +28,6 @@ class Bird:
     def show_stats(self, opponent):
         print(f'{self.nom} | Stamina: {self.stamina}, PV: {self.PV}/{self.PVmax}\n{opponent.nom} | PV: {opponent.PV}')  # on rappelle les PV de chacun
 
-    def choose_spe_attack(self, input):
-        if not input or input == '1':
-            return False
-        else:
-            return True
-
-    def check_damage(self, opponent):
-        if self.attaque < opponent.defense:
-            return False
-        else:
-            return True
-
-    def apply_damage(self, opponent):
-        total_damage = opponent.defense - self.attaque
-        opponent.PV -= total_damage
-        return opponent.PV
 
     def attaquer(self, ennemi, indice=0):
         '''
@@ -62,9 +46,9 @@ class Bird:
 
             type_attaque = input(f'Quelle attaque souhaitez-vous lancer ? 1: Normal, 2: {self.att_spe[0]}')  # on demande au joueur quelle attaque il souhaite lancer
             
-            if not self.choose_spe_attack(type_attaque):  # si le joueur choisit de lancer une attaque normale
+            if type_attaque == '1':  # si le joueur choisit de lancer une attaque normale
                 if self.nom == 'Bomb':
-                    if not self.check_damage(ennemi[indice]):  # si la défense de l'ennemi est supérieure à  l'attaque du joueur
+                    if ennemi[indice].defense > self.attaque:  # si la défense de l'ennemi est supérieure à  l'attaque du joueur
                         ennemi[indice].PV -= 0  # le joueur ne lui fait aucun dégàt
                         print(f'{self.nom} attaque {ennemi[indice].nom}: Vous ne faites aucun dégât.')  # On le précise
                     else:
@@ -73,7 +57,7 @@ class Bird:
                             ennemi[indice].PV = 0  # on les passe à 0
                         print(f'{self.nom} attaque {ennemi[indice].nom}: Vous faites {self.attaque - ennemi[indice].defense} dégâts.')  # On précise les dégà¢ts infligés
                 else:
-                    if self.check_damage(ennemi):  # si la défense de l'ennemi est supérieure à  l'attaque du joueur
+                    if ennemi.defense > self.attaque:  # si la défense de l'ennemi est supérieure à  l'attaque du joueur
                         ennemi.PV -= 0  # le joueur ne lui fait aucun dégàt
                         print(f'{self.nom} attaque {ennemi.nom}: Vous ne faites aucun dégât.')  # On le précise
                     else:
@@ -107,8 +91,7 @@ class Bird:
                     else:
                         print('Vous utilisez Kamikaze.')
                         for enn in ennemi:
-                            if self.att_spe[
-                                1] < enn.defense:  # si la défense de l'ennemi est supérieure à  l'attaque du bird
+                            if self.att_spe[1] < enn.defense:  # si la défense de l'ennemi est supérieure à  l'attaque du bird
                                 enn.PV -= 0  # le joueur ne fait aucun dégât
                                 print(f'{enn.nom} ne se prend aucun dégât.')
                             else:
