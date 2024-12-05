@@ -24,6 +24,7 @@ class Bird:
         self.stamina = stamina
         self.staminamax = staminamax
         self.att_spe = att_spe
+        self.inventory={'potions':[]}
 
     def show_stats(self, opponent):
         print(f'{self.nom} | Stamina: {self.stamina}, PV: {self.PV}/{self.PVmax}\n{opponent.nom} | PV: {opponent.PV}')  # on rappelle les PV de chacun
