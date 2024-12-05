@@ -10,6 +10,9 @@ def update_stage(stage):
     return stage
 
 def Sphinx() :
+    """
+    Fonction qui permet d'afficher une énigme au joueur avant le boss final. Elle retourne True si le joueur a bien répondu et False sinon.
+    """
     dic_enigmes = {"Qu'est-ce qui est lourd et ne bouge que la nuit\n et dont le cri ne signifie que l'ennui ?" : "Terrence",
                    "Qu'est-ce qui est orange et gentil lorsqu'il est bien nourri mais grand et méchant lorsqu'il est mécontent" : "Bubble",
                    "Qu'est-ce qui est jaune et qui court vite ?" : "Chuck"}
@@ -94,6 +97,9 @@ def jeu(perso):
                 perso.stamina = perso.staminamax
                 if Sphinx() :
                     stage = update_stage(stage)
+                else :
+                    print('Dommage...')
+                    time.sleep(2)
             else:
                 print('Game Over')
                 print('')

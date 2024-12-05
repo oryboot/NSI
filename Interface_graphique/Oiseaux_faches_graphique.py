@@ -146,16 +146,23 @@ class Picoo :
                 return True,rect#on retourne True
         return False,rect#False sinon
     
-    def contourner_obstacle(self,rect) :
+    def contourner_obstacle(self,rect,bird) :
         if self.x < self.x+rect.w+self.get_rect().w :
             self.x+=3
+            if self.get_collision([rect])[0] :
+                self.x-=3
         elif self.x > self.x+rect.w+self.get_rect().w :
             self.x-=3
+            if self.get_collision([rect])[0] :
+                self.x+=3
         if self.y < self.y+rect.h+self.get_rect().h :
             self.y+=3
+            if self.get_collision([rect])[0] :
+                self.y-=3
         elif self.y > self.y+rect.h+self.get_rect().h :
             self.y-=3
-        pass
+            if self.get_collision([rect])[0] :
+                self.y+=3
 
     def follow(self,bird,liste_collisions,contourner):
         """
@@ -173,7 +180,7 @@ class Picoo :
                 contourner=True
                 self.x -= self.dpl_x
                 self.y -= self.dpl_y
-                self.contourner_obstacle(collision[1])
+                self.contourner_obstacle(collision[1],bird)
             else :
                 contouner=False
             vx = bird.x-self.x
