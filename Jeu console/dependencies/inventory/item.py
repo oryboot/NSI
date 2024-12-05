@@ -6,7 +6,7 @@ class Item:
         self.weight = weight
         self.unique_id = unique_id
 
-    def inspect(self):
+    def afficher(self):
         print(f'Name: {self.name}')
         print(f'Description: {self.description}')
         print(f'Type: {self.type}')
@@ -15,18 +15,17 @@ class Item:
 
 
 class Potion(Item):
-    def __init__(self, name, description, weight, unique_id, healing=0, damaging=0, blurry_view=False, invisibility=False, speeding=False,
+    def __init__(self, name, description, unique_id, healing=0, damaging=0,
                  stamina_reload=False):
-        super().__init__(name, description, 'potion', weight, unique_id)
+        super().__init__(name, description, 'potion', unique_id)
         self.healing = healing
         self.damaging = damaging
-        self.blurry_view = blurry_view
-        self.invisibility = invisibility
-        self.speeding = speeding
         self.stamina_reload = stamina_reload
 
-    def use(self):
-        pass
+    def use(self,bird,picoo):
+        bird.PV+=self.healing
+        picoo.PV-=self.damaging
+        bird.stamina+=self.stamina_reload
 
 
 class Weapon(Item):
