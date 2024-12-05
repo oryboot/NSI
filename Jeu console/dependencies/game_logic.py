@@ -4,10 +4,12 @@ from .menu import menu
 from .picoo import Picoo
 from .combat_mecanic import combat, combat_multiple
 from .story import intro, get_place, introduce_level, final_battle
+from .inventory.item import Potion
 
 def update_stage(stage):
     stage += 1
     return stage
+
 
 def Sphinx() :
     """
@@ -29,13 +31,19 @@ def Sphinx() :
     question=random.choice([q for q in dic_enigmes.keys()])
     print(question)
     return input().lower()==dic_enigmes[question].lower()
-    
+
+def get_dict_empty(dict) :
+    for key in dict.keys :
+        if len(dict[key])>0 :
+            return False
+    return True
 
 def jeu(perso):
     """
     On définit la fonction principale du jeu.
     """
     picoo_list = ['Minion']  # on crée une liste de types possibles de picoo/cochon
+    liste_potions=['Régénération','Attaque','Stamina']
     intro(perso)
     stage = 9 # on initialise le numéro du stage
     introduce_level(stage)
@@ -63,6 +71,9 @@ def jeu(perso):
                 if perso.stamina >= perso.staminamax:  # si la stamina obtenue est supérieure à  la stamina max
                     perso.stamina = perso.staminamax  # on lui donne la valeur de la stamina max
                 stage = update_stage(stage)
+                if random.choice([random.choice[True,False] for i in range(100)]) :
+                    print(f'Vous trouvez une potion de {random.choice(liste_potions)}.\nVous la rangez dans votre inventaire.')
+                    perso.inventory['potions'].append(Potion('regen','régénère les Pv du joueur','01',perso.PVmax-perso.PV,0))
             else:  # s'il perd
                 print('Game Over')
                 if input('Reprendre le stage ? 1:Oui 2:Non') == '1':  # on lui demande s'il souhaite reprendre
