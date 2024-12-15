@@ -1,12 +1,5 @@
 import time
-
-
-# def attack():
-#     if choose_spe_attack():
-#         spe_attack()
-#     else:
-#         basic_attack()
-
+import random
 
 class Bird:
     '''Définition d'un Bird'''
@@ -29,6 +22,11 @@ class Bird:
     def show_stats(self, opponent):
         print(f'{self.nom} | Stamina: {self.stamina}, PV: {self.PV}/{self.PVmax}\n{opponent.nom} | PV: {opponent.PV}')  # on rappelle les PV de chacun
 
+    def empty_dict(self) :
+        for key in self.inventory.keys() :
+            if len(self.inventory[key])>0 :
+                return False
+        return True
 
     def attaquer(self, ennemi, indice=0):
         '''
@@ -44,8 +42,10 @@ class Bird:
                 self.show_stats(ennemi[indice])                
             else:
                 self.show_stats(ennemi)
-
-            type_attaque = input(f'Quelle attaque souhaitez-vous lancer ? 1: Normal, 2: {self.att_spe[0]}')  # on demande au joueur quelle attaque il souhaite lancer
+            texte=f'Quelle attaque souhaitez-vous lancer ? 1: Normal, 2: {self.att_spe[0]}'
+            if not self.empty_dict() :
+                texte+='\nOu peut-être voulez-vous consulter votre inventaire ? 3: Inventaire'
+            type_attaque = input(texte)  # on demande au joueur quelle attaque il souhaite lancer
             
             if type_attaque == '1':  # si le joueur choisit de lancer une attaque normale
                 if self.nom == 'Bomb':
@@ -68,7 +68,7 @@ class Bird:
                         print(f'{self.nom} attaque {ennemi.nom}: Vous faites {self.attaque - ennemi.defense} dégâts.')  # On précise les dégà¢ts infligés
                 attaque_valide = True  # on valide l'attaque
 
-            else:  # s'il choisit son attaque spéciale
+            elif type_attaque=='2':  # s'il choisit son attaque spéciale
                 if self.stamina >= 20:  # on vérifie qu'il a assez de stamina
                     if self.nom == 'Chuck':
                         print('Vous utilisez Hyperactive : +20 DEF')
@@ -106,6 +106,38 @@ class Bird:
                     self.stamina -= 20  # on diminue la stamina du joueur
                 else:
                     print('Pas assez de stamina !')  # si le joueur n'a pas assez de stamina pour lancer son attaque spéciale, on ne valide pas l'attaque
+            elif type_attaque=='3' :
+                if not self.empty_dict() :
+                    self.display_inventory()#on affiche l'inventaire du joueur
+                    print('Souhaitez-vous utiliser quelque chose ? 1-Oui 2-Non')
+                    stop=False
+                    while not stop :#tant qu'il ne donne pas une réponse valide
+                        rep=input()
+                        if rep in ['1','2'] :
+                            if rep=='1' :#s'il choisit d'utiliser quelque chose
+                                verif=False
+                                while not verif :#on vérifie sa réponse
+                                    try :
+                                        indice=int(input("Entrez le numéro de l'item"))-1
+                                        #on utilise la potion
+                                        if self.nom=='Bomb' :
+                                            self.inventory['potions'][indice].use(self,random.choice(ennemi))
+                                        else :
+                                            self.inventory['potions'][indice].use(self,ennemi)
+                                        self.inventory['potions'].pop(indice)#et on l'nelève de l'inventaire
+                                        verif=True
+                                        stop=True
+                                        attaque_valide=True
+                                    except :
+                                        print('Entrée invalide')
+                        else :
+                            print("Entrée invalide")
+                else :
+                    print('Inventaire vide')
+            else :
+                print('Entrée invalide')
+
+
 
     def gain_xp(self, nbXP):
         """
@@ -124,6 +156,10 @@ class Bird:
             self.stamina += 5
             self.staminamax += 5
             self.att_spe[1] += 5
+    def display_inventory(self) :
+        for key in self.inventory.keys() :
+            for i in range(len(self.inventory[key])) :
+                print(f'{i+1}-{self.inventory[key][i].name}')
 
 
 class Red(Bird):
