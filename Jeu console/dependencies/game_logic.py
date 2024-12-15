@@ -4,7 +4,7 @@ from .menu import menu
 from .picoo import Picoo
 from .combat_mecanic import combat, combat_multiple
 from .story import intro, get_place, introduce_level, final_battle
-from .inventory.item import Potion
+from .inventory.potion import Potion
 
 def update_stage(stage):
     stage += 1
@@ -73,8 +73,15 @@ def jeu(perso):
                 stage = update_stage(stage)
                 if random.choice([random.choice([True,False]) for i in range(100)]) :
                     potion=random.choice(liste_potions)
+                    time.sleep(1)
                     print(f'Vous trouvez une potion de {potion}.\nVous la rangez dans votre inventaire.')
-                    perso.inventory['potions'].append(Potion(potion,'régénère les PV du joueur','01',perso.PVmax-perso.PV,0))
+                    time.sleep(1)
+                    if potion == "Régénération" :
+                        perso.inventory['potions'].append(Potion(potion,'01',healing=perso.PVmax-perso.PV))
+                    elif potion == "Attaque" :
+                        perso.inventory['potions'].append(Potion(potion,'02',damaging=25))
+                    elif potion=='Stamina' :
+                        perso.inventory['potions'].append(Potion(potion,'03',stamina=True))
             else:  # s'il perd
                 print('Game Over')
                 if input('Reprendre le stage ? 1:Oui 2:Non') == '1':  # on lui demande s'il souhaite reprendre
